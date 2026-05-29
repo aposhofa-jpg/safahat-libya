@@ -7,6 +7,15 @@ export default function Home() {
     "Emergency Directory",
   ];
 
+  const packages = [
+    ["Basic", "£20", "Simple business listing"],
+    ["Standard", "£50", "Listing + contact details"],
+    ["Premium", "£200", "Business card + featured listing"],
+    ["Featured", "£500", "Top category position"],
+    ["Sponsor", "£1000", "Homepage promotion"],
+    ["VIP", "£10000", "Main sponsor package"],
+  ];
+
   return (
     <main style={{ fontFamily: "Arial", background: "#f4f8fb", minHeight: "100vh" }}>
       <section style={{ background: "#0b4f8a", color: "white", padding: "50px 40px" }}>
@@ -22,21 +31,24 @@ export default function Home() {
             fontSize: "16px",
             borderRadius: "8px",
             border: "none",
+            marginRight: "10px",
           }}
         />
 
-        <button
-          style={{
-            marginLeft: "10px",
-            padding: "15px 20px",
-            borderRadius: "8px",
-            border: "none",
-            background: "#ffcc00",
-            fontWeight: "bold",
-          }}
-        >
-          Add your business
-        </button>
+        <a href="#packages">
+          <button
+            style={{
+              padding: "15px 20px",
+              borderRadius: "8px",
+              border: "none",
+              background: "#ffcc00",
+              fontWeight: "bold",
+              cursor: "pointer",
+            }}
+          >
+            Add your business
+          </button>
+        </a>
       </section>
 
       <section style={{ padding: "40px" }}>
@@ -44,16 +56,7 @@ export default function Home() {
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "20px" }}>
           {categories.map((cat) => (
-            <div
-              key={cat}
-              style={{
-                background: "white",
-                padding: "25px",
-                borderRadius: "12px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
-                fontWeight: "bold",
-              }}
-            >
+            <div key={cat} style={{ background: "white", padding: "25px", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.08)", fontWeight: "bold" }}>
               {cat}
             </div>
           ))}
@@ -71,11 +74,22 @@ export default function Home() {
             <h3>Libya Business Services</h3>
             <p>Commercial Services - Benghazi</p>
           </div>
+        </div>
 
-          <div style={{ background: "white", padding: "20px", borderRadius: "12px" }}>
-            <h3>Libyan Education Hub</h3>
-            <p>Schools & Training - Misrata</p>
-          </div>
+        <h2 id="packages" style={{ marginTop: "40px" }}>Business Packages</h2>
+        <p>Choose a package to request your business card or listing.</p>
+
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "20px" }}>
+          {packages.map(([name, price, desc]) => (
+            <div key={name} style={{ background: "white", padding: "25px", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.08)" }}>
+              <h3>{name}</h3>
+              <h2>{price}</h2>
+              <p>{desc}</p>
+              <button style={{ padding: "12px 18px", background: "#0b4f8a", color: "white", border: "none", borderRadius: "8px", cursor: "pointer" }}>
+                Request Package
+              </button>
+            </div>
+          ))}
         </div>
       </section>
     </main>
