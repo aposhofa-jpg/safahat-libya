@@ -1,12 +1,15 @@
 "use client";
+
+import { useState } from "react";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  "https://uwnhtfkkpxtaopyfyweh.supabase.co",
+  "sb_publishable_rlnxq8zUpYNDzfi43pZ5Cw_RozRuyV6"
+);
+
 export default function Home() {
-  const categories = [
-    "Medical Directory",
-    "Commercial Directory",
-    "Education Directory",
-    "Tourism Directory",
-    "Emergency Directory",
-  ];
+  const [message, setMessage] = useState("");
 
   const packages = [
     ["Basic", "£20", "Simple business listing"],
@@ -17,68 +20,48 @@ export default function Home() {
     ["VIP", "£10000", "Main sponsor package"],
   ];
 
+  async function submitBusiness(event: any) {
+    event.preventDefault();
+
+    const form = event.target;
+
+    const data = {
+      business_name: form.business_name.value,
+      category: form.category.value,
+      city: form.city.value,
+      phone: form.phone.value,
+      email: form.email.value,
+      website: form.website.value,
+      description: form.description.value,
+      package: form.package.value,
+      status: "pending",
+    };
+
+    const { error } = await supabase.from("businesses").insert([data]);
+
+    if (error) {
+      setMessage("Error: " + error.message);
+    } else {
+      setMessage("Business submitted successfully. We will contact you soon.");
+      form.reset();
+    }
+  }
+
   return (
     <main style={{ fontFamily: "Arial", background: "#f4f8fb", minHeight: "100vh" }}>
       <section style={{ background: "#0b4f8a", color: "white", padding: "50px 40px" }}>
         <h1 style={{ fontSize: "42px", margin: 0 }}>Safahat Libya</h1>
         <p style={{ fontSize: "20px" }}>صفحات ليبيا - Libyan Business Directory</p>
 
-        <input
-          placeholder="Search for business..."
-          style={{
-            padding: "15px",
-            width: "100%",
-            maxWidth: "600px",
-            fontSize: "16px",
-            borderRadius: "8px",
-            border: "none",
-            marginRight: "10px",
-          }}
-        />
-
-        <a href="#packages">
-          <button
-            style={{
-              padding: "15px 20px",
-              borderRadius: "8px",
-              border: "none",
-              background: "#ffcc00",
-              fontWeight: "bold",
-              cursor: "pointer",
-            }}
-          >
+        <a href="#submit">
+          <button style={{ padding: "15px 22px", borderRadius: "8px", border: "none", background: "#ffcc00", fontWeight: "bold" }}>
             Add your business
           </button>
         </a>
       </section>
 
       <section style={{ padding: "40px" }}>
-        <h2>Categories</h2>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "20px" }}>
-          {categories.map((cat) => (
-            <div key={cat} style={{ background: "white", padding: "25px", borderRadius: "12px", boxShadow: "0 4px 12px rgba(0,0,0,0.08)", fontWeight: "bold" }}>
-              {cat}
-            </div>
-          ))}
-        </div>
-
-        <h2 style={{ marginTop: "40px" }}>Featured Businesses</h2>
-
-        <div style={{ display: "grid", gap: "20px" }}>
-          <div style={{ background: "white", padding: "20px", borderRadius: "12px" }}>
-            <h3>Tripoli Medical Center</h3>
-            <p>Hospital / Clinic - Tripoli</p>
-          </div>
-
-          <div style={{ background: "white", padding: "20px", borderRadius: "12px" }}>
-            <h3>Libya Business Services</h3>
-            <p>Commercial Services - Benghazi</p>
-          </div>
-        </div>
-
-        <h2 id="packages" style={{ marginTop: "40px" }}>Business Packages</h2>
-        <p>Choose a package to request your business card or listing.</p>
+        <h2>Business Packages</h2>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "20px" }}>
           {packages.map(([name, price, desc]) => (
@@ -86,12 +69,52 @@ export default function Home() {
               <h3>{name}</h3>
               <h2>{price}</h2>
               <p>{desc}</p>
-              <button style={{ padding: "12px 18px", background: "#0b4f8a", color: "white", border: "none", borderRadius: "8px", cursor: "pointer" }}>
-                Request Package
-              </button>
+              <a href="#submit">
+                <button style={{ padding: "12px 18px", background: "#0b4f8a", color: "white", border: "none", borderRadius: "8px" }}>
+                  Request Package
+                </button>
+              </a>
             </div>
           ))}
         </div>
+
+        <h2 id="submit" style={{ marginTop: "50px" }}>Submit Your Business</h2>
+
+        <form onSubmit={submitBusiness} style={{ background: "white", padding: "25px", borderRadius: "12px", display: "grid", gap: "15px", maxWidth: "700px" }}>
+          <input name="business_name" placeholder="Business Name" required style={{ padding: "12px" }} />
+
+          <select name="category" required style={{ padding: "12px" }}>
+            <option value="">Select Category</option>
+            <option>Medical Directory</option>
+            <option>Commercial Directory</option>
+            <option>Education Directory</option>
+            <option>Tourism Directory</option>
+            <option>Emergency Directory</option>
+          </select>
+
+          <input name="city" placeholder="City" style={{ padding: "12px" }} />
+          <input name="phone" placeholder="Phone" style={{ padding: "12px" }} />
+          <input name="email" placeholder="Email" type="email" style={{ padding: "12px" }} />
+          <input name="website" placeholder="Website" style={{ padding: "12px" }} />
+
+          <select name="package" required style={{ padding: "12px" }}>
+            <option value="">Select Package</option>
+            <option>Basic - £20</option>
+            <option>Standard - £50</option>
+            <option>Premium - £200</option>
+            <option>Featured - £500</option>
+            <option>Sponsor - £1000</option>
+            <option>VIP - £10000</option>
+          </select>
+
+          <textarea name="description" placeholder="Business description" rows={5} style={{ padding: "12px" }} />
+
+          <button type="submit" style={{ padding: "15px", background: "#0b4f8a", color: "white", border: "none", borderRadius: "8px", fontWeight: "bold" }}>
+            Submit Business
+          </button>
+
+          {message && <p>{message}</p>}
+        </form>
       </section>
     </main>
   );
