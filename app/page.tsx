@@ -5,7 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   "https://uwnhtfkkpxtaopyfyweh.supabase.co",
-  "sb_publishable_rlnxq8zUpYNDzfi43pZ5Cw_RozRuyV6"
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV3bmh0ZmtrcHh0YW9wZnlmd2VoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4NzI3MzksImV4cCI6MjA5NTQ0ODczOX0.iZPmO78wh1oWpPDlar68zpv9eb5iRplxtkU5faHwBm8"
 );
 
 export default function Home() {
