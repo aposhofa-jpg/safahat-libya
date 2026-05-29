@@ -12,6 +12,9 @@
     "react-dom": "latest"
   },
   "devDependencies": {
-    "typescript": "latest"
+  "typescript": "latest",
+  "@types/react": "latest",
+  "@types/node": "latest"
+}
   }
 }
