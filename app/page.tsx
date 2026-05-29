@@ -1,8 +1,8 @@
-export default function HomePage() {
+export default function Home() {
   return (
-    <main>
-      <h1>صفحات ليبيا</h1>
-      <p>الموقع يعمل الآن</p>
+    <main style={{ padding: "40px", fontFamily: "Arial" }}>
+      <h1>Welcome to Safahat Libya</h1>
+      <p>Your Libyan business directory is coming soon.</p>
     </main>
   )
 }
